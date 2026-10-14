@@ -80,6 +80,22 @@ node ./bin/context-firewall.js reduce \
   --input examples/test-run-input.json
 ```
 
+Expected output: exit code 0. Stdout is the canonical evidence packet
+(`opsle.context-firewall.evidence-packet/v1`) for the failing test `adds`:
+`decision_evidence.status` is `failed`, counts are total 1, passed 0,
+failed 1, skipped 0, `disposition` is `SUFFICIENT`, and
+`receipt.input_hash` is
+`sha256:d1e7f16508eab1b5d6591dee7fbe98748b74cc41f632cae1e63f7312db258652`.
+Stderr is exactly:
+
+```text
+[Context Firewall] 143 B -> 2,554 B | 2,411 B expansion | escalation: no
+```
+
+The packet is larger than the 143-byte input because provenance receipts
+have a fixed cost; this small example demonstrates failure retention, not
+reduction. Reduction figures appear in the conformance corpus below.
+
 Read from stdin with a 4,096-byte ceiling:
 
 ```bash
@@ -132,7 +148,7 @@ The CLI always writes only the compact canonical evidence packet to stdout and
 one named completion indicator to stderr:
 
 ```text
-[Context Firewall] 28,981 B -> 1,846 B | 27,135 B initially avoided (93.63%) | escalation: no
+[Context Firewall] 28,981 B -> 1,847 B | 27,134 B initially avoided (93.63%) | escalation: no
 ```
 
 To persist the deterministic receipt separately, the caller may request a
@@ -228,6 +244,13 @@ source payloads.
 
 ## Verification
 
+One command runs the full proof: syntax checks, the test suite, the
+conformance corpus, and the example above as a demo:
+
+```bash
+npm run verify
+```
+
 Run all tests:
 
 ```bash
@@ -240,7 +263,7 @@ Run the deterministic synthetic corpus:
 npm run conformance
 ```
 
-The conformance result is canonical JSON over 30 public-safe fixtures spanning
+The conformance result is canonical JSON over 33 public-safe fixtures spanning
 normal success, normal failure, multi-failure retention, process problems, byte
 and text edge cases, payload boundaries, and provenance gaps. It reports raw and
 reduced sizes, verdict preservation, escalation, and PASS/FAIL.
