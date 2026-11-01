@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# Operator helper for the root-only gates for opsle/context-firewall.
+# Operator helper for the root-only gates for sneakocom/context-firewall.
 #   bash ops/ci/operator-gate test        install the TEST runner
 #   bash ops/ci/operator-gate deploy      install the deploy runner
 set -Eeuo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 
-readonly repo=opsle/context-firewall
+readonly repo=sneakocom/context-firewall
 
 token() { gh api -X POST "repos/$repo/actions/runners/registration-token" --jq .token; }
 online() {
