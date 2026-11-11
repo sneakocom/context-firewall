@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Made every README CLI example runnable verbatim. The stdin example now pipes the bundled example input in, and the value-receipt and model-evidence sidecar examples now name `--input examples/test-run-input.json`; previously all three omitted their input source and failed or waited on stdin when copied as written.
+
 ## 0.5.0 - 2026-09-08
 
 - Classify Node's native spec reporter pass, fail, skip, aggregate, and timing
