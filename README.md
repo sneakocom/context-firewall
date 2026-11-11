@@ -96,10 +96,12 @@ The packet is larger than the 143-byte input because provenance receipts
 have a fixed cost; this small example demonstrates failure retention, not
 reduction. Reduction figures appear in the conformance corpus below.
 
-Read from stdin with a 4,096-byte ceiling:
+Read from stdin with a 4,096-byte ceiling (the input must be piped or
+redirected in; with no stdin data the CLI fails with `INVALID_INPUT`):
 
 ```bash
-node ./bin/context-firewall.js reduce \
+cat examples/test-run-input.json | \
+  node ./bin/context-firewall.js reduce \
   --max-bytes 4096
 ```
 
@@ -156,6 +158,7 @@ sidecar:
 
 ```bash
 node ./bin/context-firewall.js reduce \
+  --input examples/test-run-input.json \
   --mechanism-revision REVISION \
   --value-receipt value-receipt.json
 ```
@@ -177,6 +180,7 @@ semantic-only sidecar with `--model-evidence PATH`. Its protocol is
 
 ```bash
 node ./bin/context-firewall.js reduce \
+  --input examples/test-run-input.json \
   --model-evidence model-evidence.json
 ```
 
